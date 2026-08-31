@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.env
+cases/*/pipeline_report.md
