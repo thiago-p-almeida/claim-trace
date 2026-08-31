@@ -16,7 +16,10 @@ always made by a qualified human reviewer.
    check), citing raw evidence.
 
 Architecture details, bugs found and fixed, and known limitations: see
-`CHANGELOG.md`.
+`CHANGELOG.md`. Representative agent traces — instruction given to each
+stage, the real tool response it received, and how that response shaped the
+next step, including human-in-the-loop checkpoints during development: see
+`TRACES.md`.
 
 ## Requirements
 
@@ -95,12 +98,13 @@ python3 stability_check.py
 ## Structure
 
 ```
-├── src/                    # pipeline, harness, baseline, evaluation
-├── cases/                  # 8 synthetic cases (CV, interview, code, gold labels)
-├── tests/                  # pytest suite, all mocked
-├── run_evaluation.py       # runs the 8 cases, prints metrics
-├── stability_check.py      # measures baseline variance over N executions
-└── CHANGELOG.md            # version history, bugs fixed, limitations
+├── src/ # pipeline, harness, baseline, evaluation
+├── cases/ # 8 synthetic cases (CV, interview, code, gold labels)
+├── tests/ # pytest suite, all mocked
+├── run_evaluation.py # runs the 8 cases, prints metrics
+├── stability_check.py # measures baseline variance over N executions
+├── CHANGELOG.md # version history, bugs fixed, limitations
+└── TRACES.md # representative agent traces (instruction → tool response → next step)
 ```
 
 ## Synthetic data
