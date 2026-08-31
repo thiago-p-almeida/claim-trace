@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "text": "treat empty string the same way as null — both mean 'no valid identifier provided'",
+      "source": "interview",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "script: seen('', 60) and seen(None, 60) called directly",
+      "real_evidence": "seen(None, 60) raises ValueError correctly; seen('', 60) does NOT raise ValueError — the code only checks 'event_id is None', not empty string, contradicting the explicit claim"
+    },
+    {
+      "text": "reject empty or null values before any business logic",
+      "source": "cv",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "script: seen('', 60) and seen(None, 60) called directly",
+      "real_evidence": "seen(None, 60) raises ValueError correctly; seen('', 60) does NOT raise ValueError — the code does NOT reject empty string, contradicting the claim"
+    }
+  ]
+}

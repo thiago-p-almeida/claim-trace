@@ -1,0 +1,12 @@
+{
+  "claims": [
+    {
+      "text": "check and insertion must happen as a single operation, without a gap where another instance could enter in between",
+      "source": "interview",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "run_concurrency_stress_test, n_threads=20, iterations=50",
+      "real_evidence": "failures=50, total=50, failure_rate=1.0 — code does exactly the check-then-act without protection that the candidate described as the error to avoid"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "claims": [
+    {
+      "text": "I served as tech lead for a 4-person team, leading agile ceremonies and technical mentorship",
+      "source": "cv",
+      "expected_classification": "out_of_scope",
+      "expected_verdict": "not_verifiable",
+      "derivation_method": "reading the technical test statement (cases/test_problem.md)",
+      "real_evidence": "the test doesn't exercise anything related to team leadership or processes — claim is genuinely out of what the code can confirm or deny"
+    },
+    {
+      "text": "I use a check that covers both at once, something like 'if not value', instead of only checking is None",
+      "source": "interview",
+      "expected_classification": "within_scope",
+      "expected_verdict": "contradicts",
+      "derivation_method": "script alone: seen('', 60) and seen(None, 60)",
+      "real_evidence": "seen(None, 60) raises ValueError; seen('', 60) does NOT raise — the code uses 'if event_id is None', exactly the pattern the candidate said they would avoid, contradicting the claim"
+    }
+  ]
+}

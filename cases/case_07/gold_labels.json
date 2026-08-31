@@ -1,0 +1,12 @@
+{
+  "claims": [
+    {
+      "text": "I led the migration of a billing monolith to microservices orchestrated in Kubernetes, with CI/CD pipeline and automated canary deployment",
+      "source": "cv",
+      "expected_classification": "out_of_scope",
+      "expected_verdict": "not_verifiable",
+      "derivation_method": "reading the technical test statement (cases/test_problem.md)",
+      "real_evidence": "the technical test exercises concurrency, TTL and input validation in an in-memory service — it doesn't touch container orchestration, deploy pipelines or microservice architecture. There's no way the technical test code can confirm or contradict this claim."
+    }
+  ]
+}

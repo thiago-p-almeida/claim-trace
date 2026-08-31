@@ -1,0 +1,28 @@
+{
+  "claims": [
+    {
+      "text": "implemented thread-safe data structures using locks to protect writing in shared caches",
+      "source": "cv",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "run_concurrency_stress_test, n_threads=20, iterations=50",
+      "real_evidence": "failures=50, total=50, failure_rate=1.0 — the code uses a lock, but only around writing, exactly as the candidate described in the interview ('reading alone doesn't need a lock'); this belief is the root cause of the bug, not an inoffensive opinion"
+    },
+    {
+      "text": "Used a lock around the part that writes to the shared dictionary. This prevents two threads from writing at the same time and corrupting the data",
+      "source": "interview",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "run_concurrency_stress_test, n_threads=20, iterations=50",
+      "real_evidence": "failures=50, total=50, failure_rate=1.0 — the code uses lock, but only around writing, exactly as the candidate described; the reading part has no protection"
+    },
+    {
+      "text": "Normally reading by itself is fast enough to not need a lock — what matters is protecting the writing",
+      "source": "interview",
+      "expected_classification": "in_scope",
+      "expected_verdict": "contradicted",
+      "derivation_method": "run_concurrency_stress_test, n_threads=20, iterations=50",
+      "real_evidence": "failures=50, total=50, failure_rate=1.0 — the candidate claims reading doesn't need lock, but the critical section requires both read and write protected together"
+    }
+  ]
+}

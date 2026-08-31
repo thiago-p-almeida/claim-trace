@@ -1,0 +1,12 @@
+{
+  "claims": [
+    {
+      "text": "the first thing I write is the parameter check — if it comes empty or null, I raise an exception immediately",
+      "source": "interview",
+      "expected_classification": "within_scope",
+      "expected_verdict": "contradicts",
+      "derivation_method": "script alone: EventDeduper().seen('', 60) and EventDeduper().seen(None, 60) called directly",
+      "real_evidence": "neither of the two calls raises ValueError — the function has no input validation, directly contradicting the claim of 'guard clause' described in the interview"
+    }
+  ]
+}
