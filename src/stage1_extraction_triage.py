@@ -1,33 +1,34 @@
 # src/stage1_extraction_triage.py
-import json
+from src.llm_response import parse_llm_json
 import os
 from src.ledger import Claim, Ledger
 
-EXTRACTION_PROMPT = """Você é um agente de extração e triagem de claims técnicas.
+EXTRACTION_PROMPT = """You are an agent for extracting and triaging technical claims.
 
-Leia o CV e a transcrição de entrevista abaixo. Extraia CLAIMS TÉCNICAS
-DISCRETAS e verificáveis em princípio (ignore afirmações vagas de
-personalidade/soft skills).
+Read the CV and interview transcript below. Extract ALL specific and factual claims
+about the candidate's work — technical or not (e.g., leadership, processes, certifications) — as long as they are concrete enough to be evaluated as true or false. Ignore ONLY
+vague statements without verifiable content (e.g., "I am dedicated", "I work well in a team").
+Every extracted claim must be classified — even if "out_of_scope" — never discarded silently.
 
-Para cada claim, classifique contra o enunciado do teste técnico:
-- "dentro_do_escopo": o teste exercita diretamente essa habilidade/decisão técnica.
-- "fora_do_escopo": o teste não toca nesse assunto.
-- "ambigua": não dá para decidir com confiança.
+For each claim, classify against the technical test statement:
+- "in_scope": the test directly exercises this skill/decision technically.
+- "out_of_scope": the test does not touch this subject.
+- "ambiguous": cannot decide with confidence.
 
-Enunciado do teste técnico:
+Technical test statement:
 {test_problem_text}
 
 CV:
 {cv_text}
 
-Entrevista:
+Interview:
 {interview_text}
 
-Responda APENAS com JSON no formato:
-{{"claims": [{{"texto": "...", "fonte": "cv"|"entrevista", "classificacao": "...", "justificativa_classificacao": "..."}}]}}
+Respond ONLY with JSON in the format:
+{{"claims": [{{"text": "...", "source": "cv"|"interview", "classification": "...", "classification_justification": "..."}}]}}
 """
 
-def extract_and_triage(cv_text: str, interview_text: str, test_problem_text: str, caso_id: str, llm_client) -> Ledger:
+def extract_and_triage(cv_text: str, interview_text: str, test_problem_text: str, case_id: str, llm_client) -> Ledger:
     prompt = EXTRACTION_PROMPT.format(
         test_problem_text=test_problem_text, cv_text=cv_text, interview_text=interview_text
     )
@@ -36,14 +37,14 @@ def extract_and_triage(cv_text: str, interview_text: str, test_problem_text: str
         max_tokens=2000,
         messages=[{"role": "user", "content": prompt}],
     )
-    parsed = json.loads(response.choices[0].message.content)
+    parsed = parse_llm_json(response)
     claims = [
         Claim(
-            texto=c["texto"],
-            fonte=c["fonte"],
-            classificacao=c["classificacao"],
-            justificativa_classificacao=c["justificativa_classificacao"],
+            text=c["text"],
+            source=c["source"],
+            classification=c["classification"],
+            classification_justification=c["classification_justification"],
         )
         for c in parsed["claims"]
     ]
-    return Ledger(caso_id=caso_id, claims=claims)
+    return Ledger(case_id=case_id, claims=claims)

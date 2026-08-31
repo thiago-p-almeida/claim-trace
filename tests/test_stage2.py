@@ -3,18 +3,18 @@ from unittest.mock import MagicMock
 from src.ledger import Claim, Ledger
 from src.stage2_verification import verify
 
-def test_verify_confirms_fora_de_escopo_apos_segunda_opiniao():
+def test_verify_confirms_out_of_scope_after_second_opinion():
     mock_client = MagicMock()
-    # segunda opinião concorda que está fora de escopo mesmo
+    # second opinion agrees it's out of scope
     mock_client.chat.completions.create.return_value.choices = [
-        MagicMock(message=MagicMock(content='{"confirma_fora_de_escopo": true}'))
+        MagicMock(message=MagicMock(content='{"confirms_out_of_scope": true}'))
     ]
     claim = Claim(
-        texto="liderei migração para Kubernetes",
-        fonte="cv",
-        classificacao="fora_do_escopo",
-        justificativa_classificacao="teste não toca orquestração",
+        text="led migration to Kubernetes",
+        source="cv",
+        classification="out_of_scope",
+        classification_justification="test does not touch orchestration",
     )
-    ledger = Ledger(caso_id="case_07", claims=[claim])
+    ledger = Ledger(case_id="case_07", claims=[claim])
     result = verify(ledger, candidate_code_path="cases/case_07/candidate_code.py", llm_client=mock_client)
-    assert result.claims[0].veredito == "nao_verificavel"
+    assert result.claims[0].verdict == "unverifiable"

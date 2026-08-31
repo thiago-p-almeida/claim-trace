@@ -3,15 +3,15 @@ from src.ledger import Claim, Ledger
 
 def test_ledger_serializes_to_dict():
     claim = Claim(
-        texto="resolvi race condition com operação atômica",
-        fonte="entrevista",
-        classificacao="dentro_do_escopo",
-        justificativa_classificacao="teste exige lidar com chamadas concorrentes",
-        veredito="pendente",
-        metodo_verificacao=None,
-        evidencia=None,
+        text="resolved a race condition with an atomic operation",
+        source="interview",
+        classification="in_scope",
+        classification_justification="the test requires handling concurrent calls.",
+        verdict="pending",
+        verification_method=None,
+        evidence=None,
     )
-    ledger = Ledger(caso_id="case_01", claims=[claim])
+    ledger = Ledger(case_id="case_01", claims=[claim])
     d = ledger.to_dict()
-    assert d["caso_id"] == "case_01"
-    assert d["claims"][0]["classificacao"] == "dentro_do_escopo"
+    assert d["case_id"] == "case_01"
+    assert d["claims"][0]["classification"] == "in_scope"
